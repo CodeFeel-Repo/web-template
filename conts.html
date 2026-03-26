@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>손맛코딩 | 콘텐츠 페이지</title>
+  <style>
+    :root {
+      --bg: #f3eadf;
+      --surface: rgba(255, 251, 245, 0.85);
+      --ink: #211c17;
+      --muted: #655c52;
+      --accent: #d95d39;
+      --accent-deep: #9e381c;
+      --line: rgba(33, 28, 23, 0.1);
+      --shadow: 0 26px 72px rgba(70, 48, 33, 0.14);
+      --space-section: 1.2rem;
+      --space-card: 1.5rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at left top, rgba(217, 93, 57, 0.15), transparent 28%),
+        linear-gradient(180deg, #fdf8f2 0%, var(--bg) 100%);
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(980px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.2rem 0 3.2rem;
+    }
+
+    .nav,
+    .hero,
+    .content,
+    .pager {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav,
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border-radius: 1.35rem;
+    }
+
+    .brand,
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .mark {
+      width: 2.45rem;
+      height: 2.45rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.8rem;
+      background: #2d241d;
+      color: #fff8ef;
+    }
+
+    .hero,
+    .content {
+      margin-top: var(--space-section);
+      padding: var(--space-card);
+      border-radius: 2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(217, 93, 57, 0.12);
+      color: var(--accent-deep);
+      font-size: 0.83rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 1rem 0 0.9rem;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      letter-spacing: -0.05em;
+      line-height: 0.96;
+    }
+
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.4rem;
+    }
+
+    p,
+    li {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.2rem;
+    }
+
+    .block {
+      padding: 1.35rem;
+      border-radius: 1.4rem;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid var(--line);
+    }
+
+    .block > * + * {
+      margin-top: 1rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: white;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: transparent;
+      color: #fffaf5;
+    }
+
+    .pager {
+      margin-top: var(--space-section);
+    }
+
+    @media (max-width: 860px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 1.2rem, 980px);
+        padding: 0.9rem 0 2.4rem;
+      }
+
+      .nav,
+      .pager {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .hero,
+      .content {
+        padding: 1.25rem;
+        border-radius: 1.6rem;
+      }
+
+      .block {
+        padding: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <span class="mark">S</span>
+        <span>손맛코딩</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">랜딩</a>
+        <a href="list.html">목록</a>
+        <a href="conts.html">콘텐츠</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">Content Detail</span>
+        <h1>단일 콘텐츠를<br>읽기 좋게 정리한<br>상세 페이지</h1>
+        <p>랜딩에서 첫인상을 만들고, 목록에서 선택한 뒤, 이 페이지에서 한 항목을 충분히 설명하는 흐름을 의도했습니다.</p>
+        <div class="meta">
+          <span>카테고리: 랜딩 구조</span>
+          <span>형태: 상세 소개</span>
+          <span>연결: index.html, list.html</span>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="content-grid">
+          <article class="block">
+            <h2>콘텐츠 개요</h2>
+            <p>이 페이지는 하나의 주제를 집중해서 전달하는 데 목적이 있습니다. 상단에는 제목과 맥락을 두고, 본문에는 핵심 요점과 적용 방향을 나눠 배치해 읽는 흐름을 단순하게 유지했습니다.</p>
+            <p>초기 프로젝트에서는 실제 데이터 대신 설명용 텍스트를 넣어 구조를 먼저 검증하는 편이 효율적입니다. 이후 텍스트, 이미지, 링크만 바꿔도 상세 페이지로 재활용할 수 있습니다.</p>
+          </article>
+          <aside class="block">
+            <h2>핵심 포인트</h2>
+            <ul>
+              <li>한 주제에 집중하는 단일 상세 화면</li>
+              <li>랜딩과 목록에서 모두 진입 가능</li>
+              <li>확장 시 본문 섹션 추가가 쉬운 구조</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pager">
+      <a class="button" href="list.html">목록으로 돌아가기</a>
+      <a class="button primary" href="index.html">랜딩으로 이동</a>
+    </footer>
+  </div>
+</body>
+</html>

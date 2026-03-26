@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>손맛코딩 | 목록 페이지</title>
+  <style>
+    :root {
+      --bg: #f4ede1;
+      --surface: rgba(255, 250, 242, 0.82);
+      --ink: #1f1b17;
+      --muted: #655b50;
+      --accent: #d95d39;
+      --accent-soft: rgba(217, 93, 57, 0.12);
+      --line: rgba(31, 27, 23, 0.1);
+      --shadow: 0 24px 70px rgba(84, 56, 36, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(217, 93, 57, 0.16), transparent 26%),
+        linear-gradient(180deg, #fcf8f1 0%, var(--bg) 100%);
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.2rem 0 4rem;
+    }
+
+    .nav,
+    .hero,
+    .list-card,
+    .footer-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border-radius: 1.4rem;
+    }
+
+    .brand,
+    .links {
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .mark {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.85rem;
+      background: #2c241d;
+      color: #fff7ee;
+    }
+
+    .links a,
+    .list-card a {
+      text-decoration: none;
+    }
+
+    .hero {
+      margin-top: 1rem;
+      padding: 1.6rem;
+      border-radius: 2rem;
+    }
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+    }
+
+    .hero p,
+    .list-card p,
+    footer p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: white;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: transparent;
+      color: #fff9f2;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin: 2rem 0 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .list-card {
+      padding: 1.25rem;
+      border-radius: 1.5rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #a93414;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .list-card strong {
+      display: block;
+      margin: 0.9rem 0 0.6rem;
+      font-size: 1.15rem;
+    }
+
+    .list-card a {
+      display: inline-flex;
+      margin-top: 0.8rem;
+      font-weight: 700;
+      color: #a93414;
+    }
+
+    .footer-box {
+      margin-top: 2rem;
+      padding: 1.2rem 1.3rem;
+      border-radius: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 1.2rem, 1120px);
+      }
+
+      .nav,
+      .footer-box,
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <span class="mark">S</span>
+        <span>손맛코딩</span>
+      </a>
+      <nav class="links">
+        <a href="index.html">랜딩</a>
+        <a href="list.html">목록</a>
+        <a href="conts.html">콘텐츠</a>
+        <a href="app.html">사용자 정보</a>
+        <a href="game.html">게임</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>둘러보기 좋은<br>목록 페이지</h1>
+        <p>여러 콘텐츠를 카드 형태로 정리해 한눈에 훑고, 상세 페이지로 자연스럽게 이동할 수 있도록 만든 화면입니다.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="conts.html">대표 콘텐츠 보기</a>
+          <a class="button" href="index.html">랜딩으로 돌아가기</a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>추천 항목</h2>
+            <p>초기 데모에 맞게 세 가지 예시 콘텐츠를 배치했습니다.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="list-card">
+            <span class="tag">Starter</span>
+            <strong>첫 화면 설계 원칙</strong>
+            <p>명확한 헤드라인과 행동 유도를 중심으로 랜딩 페이지를 구성하는 방식입니다.</p>
+            <a href="conts.html">상세 보기</a>
+          </article>
+          <article class="list-card">
+            <span class="tag">Workflow</span>
+            <strong>단일 파일로 빠르게 시작하기</strong>
+            <p>구조와 스타일을 한 파일에 정리해 초기 시안을 빠르게 확인하는 흐름을 소개합니다.</p>
+            <a href="conts.html">상세 보기</a>
+          </article>
+          <article class="list-card">
+            <span class="tag">Expand</span>
+            <strong>목록에서 콘텐츠로 연결하기</strong>
+            <p>탐색 페이지와 상세 페이지를 묶어 사용자가 자연스럽게 이동하도록 구성했습니다.</p>
+            <a href="conts.html">상세 보기</a>
+          </article>
+          <article class="list-card">
+            <span class="tag">Profile</span>
+            <strong>사용자 정보 콘텐츠</strong>
+            <p>이름, 상태, 활동 정보 같은 사용자 중심 데이터를 보여주는 페이지 예시입니다.</p>
+            <a href="app.html">상세 보기</a>
+          </article>
+          <article class="list-card">
+            <span class="tag">Play</span>
+            <strong>게임 플레이 시작</strong>
+            <p>간단한 규칙과 점수판을 갖춘 플레이 화면으로 이동하는 진입 카드입니다.</p>
+            <a href="game.html">상세 보기</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer-box">
+      <p>list.html 에서 콘텐츠, 사용자 정보, 게임 페이지로 각각 이동할 수 있도록 연결했습니다.</p>
+      <a class="button" href="app.html">사용자 정보 페이지로</a>
+    </footer>
+  </div>
+</body>
+</html>

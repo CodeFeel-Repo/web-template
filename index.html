@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>손맛코딩 | AI로 만드는 첫 화면</title>
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --paper: rgba(255, 250, 242, 0.78);
+      --ink: #1d1a16;
+      --muted: #5e554a;
+      --accent: #d95d39;
+      --accent-strong: #a93414;
+      --line: rgba(29, 26, 22, 0.1);
+      --shadow: 0 24px 80px rgba(75, 50, 30, 0.16);
+      --radius-pill: 999px;
+      --radius-card: 1.6rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(217, 93, 57, 0.2), transparent 28%),
+        radial-gradient(circle at right 20%, rgba(94, 85, 74, 0.14), transparent 24%),
+        linear-gradient(180deg, #fbf6ee 0%, var(--bg) 52%, #efe3d2 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid rgba(217, 93, 57, 0.45);
+      outline-offset: 3px;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 28rem;
+      height: 28rem;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      top: -8rem;
+      right: -7rem;
+      background: rgba(217, 93, 57, 0.24);
+    }
+
+    body::after {
+      bottom: -10rem;
+      left: -8rem;
+      background: rgba(75, 115, 91, 0.18);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.2rem 0 4rem;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-pill);
+      background: #fff8ef;
+      color: var(--ink);
+      transform: translateY(-140%);
+      transition: transform 180ms ease;
+      z-index: 3;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 2.8rem;
+      height: 2.8rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.9rem;
+      background: linear-gradient(145deg, #1d1a16 0%, #3a3129 100%);
+      color: #fff7ee;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .ghost-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 180ms ease;
+    }
+
+    .button,
+    .button-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 3rem;
+      padding: 0.8rem 1.3rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .button {
+      background: var(--accent);
+      color: #fffaf4;
+      box-shadow: 0 18px 32px rgba(169, 52, 20, 0.22);
+    }
+
+    .button-outline {
+      color: var(--ink);
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(14px);
+    }
+
+    .button:hover,
+    .button-outline:hover,
+    .feature:hover,
+    .metric:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-links a:hover,
+    .ghost-link:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 3.5rem 0 2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(29, 26, 22, 0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      margin: 1rem 0 1rem;
+      font-size: clamp(2.7rem, 7vw, 5.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy p {
+      max-width: 38rem;
+      margin: 0 0 1.5rem;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .metric,
+    .panel,
+    .feature,
+    .quote {
+      background: var(--paper);
+      border: 1px solid rgba(29, 26, 22, 0.08);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+    }
+
+    .metric {
+      padding: 1rem 1.05rem;
+      border-radius: 1.4rem;
+      transition: transform 180ms ease;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .panel {
+      position: relative;
+      padding: 1.3rem;
+      border-radius: 2rem;
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -20% auto;
+      width: 14rem;
+      height: 14rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217, 93, 57, 0.22), transparent 62%);
+    }
+
+    .panel-grid {
+      display: grid;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-card {
+      padding: 1.15rem;
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(29, 26, 22, 0.08);
+    }
+
+    .panel-card small,
+    .section-copy p,
+    .feature p,
+    .quote p,
+    footer p {
+      color: var(--muted);
+    }
+
+    .panel-card strong {
+      display: block;
+      margin: 0.4rem 0;
+      font-size: 1.2rem;
+    }
+
+    section {
+      padding: 2rem 0;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      max-width: 36rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .feature {
+      padding: 1.35rem;
+      border-radius: var(--radius-card);
+      transition: transform 180ms ease;
+    }
+
+    .feature strong {
+      display: block;
+      margin: 0.9rem 0 0.65rem;
+      font-size: 1.12rem;
+    }
+
+    .feature a {
+      display: inline-flex;
+      margin-top: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    .feature-icon {
+      width: 2.6rem;
+      height: 2.6rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.9rem;
+      background: rgba(217, 93, 57, 0.12);
+      color: var(--accent-strong);
+      font-weight: 700;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+    }
+
+    .quote {
+      padding: 1.6rem;
+      border-radius: 1.8rem;
+    }
+
+    .quote strong {
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .timeline-item {
+      padding: 1rem 1.1rem;
+      border-radius: 1.3rem;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(29, 26, 22, 0.08);
+    }
+
+    .timeline-item span {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--accent-strong);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .cta {
+      padding-top: 1rem;
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.6rem;
+      border-radius: 2rem;
+      background: linear-gradient(135deg, rgba(29, 26, 22, 0.94), rgba(70, 48, 33, 0.94));
+      color: #fff8ef;
+      box-shadow: 0 28px 60px rgba(29, 26, 22, 0.22);
+    }
+
+    .cta-box p {
+      margin: 0.45rem 0 0;
+      color: rgba(255, 248, 239, 0.74);
+    }
+
+    footer {
+      padding: 2rem 0 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(29, 26, 22, 0.08);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 700ms ease forwards;
+    }
+
+    .delay-1 { animation-delay: 120ms; }
+    .delay-2 { animation-delay: 240ms; }
+    .delay-3 { animation-delay: 360ms; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .fade-up {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .showcase,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid,
+      .quick-links,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 1.2rem, 1120px);
+      }
+
+      .nav {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 16vw, 4rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page" id="top">
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+    <header class="nav fade-up">
+      <a class="brand" href="#top">
+        <span class="brand-mark">S</span>
+        <span>손맛코딩</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">특징</a>
+        <a href="#workflow">흐름</a>
+        <a class="button-outline" href="#start">지금 시작</a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow fade-up delay-1">AI와 함께 만드는 첫 인상</span>
+          <h1 class="fade-up delay-2">간단한 지시로<br>바로 열리는<br>랜딩 페이지</h1>
+          <p class="fade-up delay-3">
+            복잡한 설정 없이도 시작 화면은 분명해야 합니다. 손맛코딩은 아이디어를 빠르게 화면으로 옮기고,
+            방문자가 한눈에 이해할 수 있는 구조를 담아 첫 페이지를 만듭니다.
+          </p>
+          <div class="actions fade-up delay-3">
+            <a class="button" href="#start">프로젝트 열기</a>
+            <a class="button-outline" href="#features">구성 살펴보기</a>
+          </div>
+          <div class="metrics fade-up delay-3">
+            <article class="metric">
+              <strong>1 파일</strong>
+              <span>바로 실행 가능한 단일 페이지</span>
+            </article>
+            <article class="metric">
+              <strong>반응형</strong>
+              <span>모바일과 데스크톱 모두 대응</span>
+            </article>
+            <article class="metric">
+              <strong>즉시 사용</strong>
+              <span>추가 의존성 없이 열기만 하면 완료</span>
+            </article>
+          </div>
+        </div>
+
+        <aside class="panel fade-up delay-2" aria-label="페이지 요약">
+          <div class="panel-grid">
+            <div class="panel-card">
+              <small>Landing Snapshot</small>
+              <strong>명확한 헤드라인</strong>
+              <span>첫 화면에서 핵심 메시지와 행동 유도를 동시에 전달합니다.</span>
+            </div>
+            <div class="panel-card">
+              <small>Visual Direction</small>
+              <strong>따뜻한 톤과 유리 질감</strong>
+              <span>단순하지만 평범하지 않은 분위기로 프로젝트의 인상을 정리합니다.</span>
+            </div>
+            <div class="panel-card">
+              <small>Ready to Expand</small>
+              <strong>다음 섹션 확장 가능</strong>
+              <span>소개, 기능, 포트폴리오, 문의 섹션으로 자연스럽게 확장할 수 있습니다.</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="features">
+        <div class="section-heading">
+          <div class="section-copy">
+            <h2>한 장으로도 충분한 구조</h2>
+            <p>처음 필요한 것은 기능을 다 담은 복잡한 사이트가 아니라, 핵심을 선명하게 보여 주는 출발점입니다.</p>
+          </div>
+          <a class="ghost-link" href="#workflow">만드는 흐름 보기</a>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon">01</div>
+            <strong>핵심 메시지 우선</strong>
+            <p>방문자가 스크롤을 내리기 전에 무엇을 하는 페이지인지 바로 알 수 있게 설계했습니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">02</div>
+            <strong>부담 없는 확장성</strong>
+            <p>단일 파일로 시작하지만 섹션을 추가하거나 스타일을 분리하기 쉬운 구조입니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">03</div>
+            <strong>즉시 시연 가능</strong>
+            <p>브라우저에서 `index.html`만 열어도 바로 확인할 수 있어 초기 데모에 적합합니다.</p>
+          </article>
+        </div>
+        <div class="quick-links">
+          <article class="feature">
+            <div class="feature-icon">L</div>
+            <strong>목록 페이지 이동</strong>
+            <p>구성된 카드 목록을 통해 여러 콘텐츠를 탐색할 수 있는 별도 페이지입니다.</p>
+            <a href="list.html">list.html 열기</a>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">C</div>
+            <strong>콘텐츠 페이지 이동</strong>
+            <p>단일 항목을 상세하게 소개하는 읽기 중심 페이지로 바로 연결됩니다.</p>
+            <a href="conts.html">conts.html 열기</a>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">A</div>
+            <strong>사용자 정보 페이지</strong>
+            <p>사용자 정보를 요약해 보여주는 콘텐츠 성격의 별도 화면으로 이동합니다.</p>
+            <a href="app.html">app.html 열기</a>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">G</div>
+            <strong>게임 플레이 페이지</strong>
+            <p>가볍게 진입해 플레이 흐름을 체험할 수 있는 인터랙션 중심 화면입니다.</p>
+            <a href="game.html">game.html 열기</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="workflow" class="showcase">
+        <article class="quote">
+          <p>
+            "좋은 첫 화면은 많은 설명을 하지 않습니다.
+            대신 방문자가 다음 행동을 자연스럽게 선택하게 만듭니다."
+          </p>
+          <strong>손맛코딩 랜딩 원칙</strong>
+        </article>
+
+        <div class="stack">
+          <div class="section-copy">
+            <h2>이 페이지가 하는 일</h2>
+            <p>처음 도착한 사용자가 프로젝트의 방향을 빠르게 파악하고, 다음 클릭으로 이어지도록 기본 흐름을 제공합니다.</p>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <span>Step 1</span>
+              <div>브랜드와 메시지를 상단에 압축해 첫인상을 정리합니다.</div>
+            </div>
+            <div class="timeline-item">
+              <span>Step 2</span>
+              <div>행동 버튼과 요약 카드로 방문자의 선택지를 명확하게 남깁니다.</div>
+            </div>
+            <div class="timeline-item">
+              <span>Step 3</span>
+              <div>기능 소개 섹션으로 자연스럽게 이어지며 이후 확장 작업의 기반이 됩니다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="start" class="cta">
+        <div class="cta-box">
+          <div>
+            <h2>첫 페이지는 이미 준비됐습니다.</h2>
+            <p>이제 이 화면을 기준으로 프로젝트 소개, 서비스 설명, 포트폴리오 섹션을 계속 붙여 나가면 됩니다.</p>
+          </div>
+          <a class="button" href="#top">맨 위로</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <p>© 2026 Sonmat Coding. Built as a lightweight landing page starter.</p>
+        <a class="ghost-link" href="#top">상단으로 이동</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

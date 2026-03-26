@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>손맛코딩 | 콘텐츠 페이지</title>
+  <title>손맛코딩 | Tactical Content</title>
   <style>
     :root {
-      --bg: #f3eadf;
-      --surface: rgba(255, 251, 245, 0.85);
-      --ink: #211c17;
-      --muted: #655c52;
-      --accent: #d95d39;
-      --accent-deep: #9e381c;
-      --line: rgba(33, 28, 23, 0.1);
-      --shadow: 0 26px 72px rgba(70, 48, 33, 0.14);
+      --bg: #090b10;
+      --panel: rgba(16, 20, 28, 0.9);
+      --panel-soft: rgba(255, 255, 255, 0.04);
+      --ink: #edf6ef;
+      --muted: #97a59f;
+      --accent: #ff7a00;
+      --signal: #9dff72;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 26px 72px rgba(0, 0, 0, 0.42);
       --space-section: 1.2rem;
       --space-card: 1.5rem;
     }
@@ -23,11 +24,14 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-family: "Trebuchet MS", "Segoe UI", "Malgun Gothic", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at left top, rgba(217, 93, 57, 0.15), transparent 28%),
-        linear-gradient(180deg, #fdf8f2 0%, var(--bg) 100%);
+        linear-gradient(rgba(109, 255, 154, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(109, 255, 154, 0.06) 1px, transparent 1px),
+        radial-gradient(circle at left top, rgba(255, 122, 0, 0.16), transparent 26%),
+        linear-gradient(180deg, #0d1118 0%, #090b10 100%);
+      background-size: 28px 28px, 28px 28px, auto, auto;
     }
 
     a { color: inherit; }
@@ -42,10 +46,24 @@
     .hero,
     .content,
     .pager {
-      background: var(--surface);
+      background: var(--panel);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav::before,
+    .hero::before,
+    .content::before,
+    .pager::before,
+    .block::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(157, 255, 114, 0.05), transparent 40%, rgba(255, 122, 0, 0.08));
+      pointer-events: none;
     }
 
     .nav,
@@ -55,7 +73,7 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 1.2rem;
-      border-radius: 1.35rem;
+      border-radius: 1rem;
     }
 
     .brand,
@@ -64,11 +82,15 @@
       align-items: center;
       gap: 0.85rem;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .brand {
       text-decoration: none;
       font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     .mark {
@@ -76,38 +98,51 @@
       height: 2.45rem;
       display: grid;
       place-items: center;
-      border-radius: 0.8rem;
-      background: #2d241d;
-      color: #fff8ef;
+      clip-path: polygon(14% 0, 100% 0, 100% 84%, 86% 100%, 0 100%, 0 16%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(145deg, rgba(255, 122, 0, 0.28), rgba(157, 255, 114, 0.12));
+      color: var(--ink);
+      font-weight: 800;
     }
 
     .hero,
     .content {
       margin-top: var(--space-section);
       padding: var(--space-card);
-      border-radius: 2rem;
+      border-radius: 1.2rem;
     }
+
+    .hero > *,
+    .content > * { position: relative; z-index: 1; }
 
     .eyebrow {
       display: inline-flex;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(217, 93, 57, 0.12);
-      color: var(--accent-deep);
-      font-size: 0.83rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.32rem;
+      background: rgba(157, 255, 114, 0.09);
+      border: 1px solid rgba(157, 255, 114, 0.24);
+      color: var(--signal);
+      font-size: 0.8rem;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     h1 {
       margin: 1rem 0 0.9rem;
-      font-size: clamp(2.2rem, 6vw, 4.5rem);
-      letter-spacing: -0.05em;
+      font-size: clamp(2.3rem, 6vw, 4.5rem);
       line-height: 0.96;
     }
 
     h2 {
       margin: 0 0 0.85rem;
-      font-size: 1.4rem;
+      font-size: 1.28rem;
     }
 
     p,
@@ -134,14 +169,19 @@
 
     .block {
       padding: 1.35rem;
-      border-radius: 1.4rem;
-      background: rgba(255, 255, 255, 0.64);
+      border-radius: 1rem;
+      background: var(--panel-soft);
       border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
     }
 
-    .block > * + * {
-      margin-top: 1rem;
+    .block > * {
+      position: relative;
+      z-index: 1;
     }
+
+    .block > * + * { margin-top: 1rem; }
 
     ul {
       margin: 0;
@@ -153,28 +193,27 @@
       align-items: center;
       justify-content: center;
       min-height: 3rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 999px;
+      padding: 0.82rem 1.2rem;
+      border-radius: 0.35rem;
       text-decoration: none;
       font-weight: 700;
       border: 1px solid var(--line);
-      background: white;
+      background: rgba(157, 255, 114, 0.08);
+      color: var(--signal);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
     .button.primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, #ff7a00, #ff5100);
       border-color: transparent;
-      color: #fffaf5;
+      color: #140d08;
     }
 
-    .pager {
-      margin-top: var(--space-section);
-    }
+    .pager { margin-top: var(--space-section); }
 
     @media (max-width: 860px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
+      .content-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
@@ -192,12 +231,9 @@
       .hero,
       .content {
         padding: 1.25rem;
-        border-radius: 1.6rem;
       }
 
-      .block {
-        padding: 1.1rem;
-      }
+      .block { padding: 1.1rem; }
     }
   </style>
 </head>
@@ -206,40 +242,40 @@
     <header class="nav">
       <a class="brand" href="index.html">
         <span class="mark">S</span>
-        <span>손맛코딩</span>
+        <span>Sonmat Coding</span>
       </a>
       <nav class="nav-links">
-        <a href="index.html">랜딩</a>
-        <a href="list.html">목록</a>
-        <a href="conts.html">콘텐츠</a>
+        <a href="index.html">Landing</a>
+        <a href="list.html">List</a>
+        <a href="conts.html">Content</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <span class="eyebrow">Content Detail</span>
-        <h1>단일 콘텐츠를<br>읽기 좋게 정리한<br>상세 페이지</h1>
-        <p>랜딩에서 첫인상을 만들고, 목록에서 선택한 뒤, 이 페이지에서 한 항목을 충분히 설명하는 흐름을 의도했습니다.</p>
+        <span class="eyebrow">Content Detail / Focus</span>
+        <h1>Read one<br>topic with a<br>clear frame</h1>
+        <p>랜딩에서 진입 방향을 잡고, 목록에서 항목을 고른 뒤, 이 화면에서 하나의 주제를 집중해서 설명하는 흐름을 유지합니다.</p>
         <div class="meta">
-          <span>카테고리: 랜딩 구조</span>
-          <span>형태: 상세 소개</span>
-          <span>연결: index.html, list.html</span>
+          <span>Category: Landing Structure</span>
+          <span>Type: Detail View</span>
+          <span>Route: index.html, list.html</span>
         </div>
       </section>
 
       <section class="content">
         <div class="content-grid">
           <article class="block">
-            <h2>콘텐츠 개요</h2>
-            <p>이 페이지는 하나의 주제를 집중해서 전달하는 데 목적이 있습니다. 상단에는 제목과 맥락을 두고, 본문에는 핵심 요점과 적용 방향을 나눠 배치해 읽는 흐름을 단순하게 유지했습니다.</p>
-            <p>초기 프로젝트에서는 실제 데이터 대신 설명용 텍스트를 넣어 구조를 먼저 검증하는 편이 효율적입니다. 이후 텍스트, 이미지, 링크만 바꿔도 상세 페이지로 재활용할 수 있습니다.</p>
+            <h2>Mission Summary</h2>
+            <p>이 페이지는 한 주제를 집중적으로 전달하는 상세 패널입니다. 상단에는 제목과 맥락을 두고, 본문에서는 핵심 요점과 적용 방향을 분리해 읽기 흐름을 단순하게 유지합니다.</p>
+            <p>초기 프로젝트에서는 실제 데이터보다 구조 검증이 우선입니다. 그래서 설명용 텍스트로 레이아웃을 확정한 뒤, 이후 텍스트와 이미지, 링크를 교체하며 재활용할 수 있도록 설계했습니다.</p>
           </article>
           <aside class="block">
-            <h2>핵심 포인트</h2>
+            <h2>Key Points</h2>
             <ul>
               <li>한 주제에 집중하는 단일 상세 화면</li>
-              <li>랜딩과 목록에서 모두 진입 가능</li>
-              <li>확장 시 본문 섹션 추가가 쉬운 구조</li>
+              <li>랜딩과 목록 양쪽에서 모두 진입 가능</li>
+              <li>본문 섹션 추가에 유리한 확장 구조</li>
             </ul>
           </aside>
         </div>
@@ -247,8 +283,8 @@
     </main>
 
     <footer class="pager">
-      <a class="button" href="list.html">목록으로 돌아가기</a>
-      <a class="button primary" href="index.html">랜딩으로 이동</a>
+      <a class="button" href="list.html">Back to List</a>
+      <a class="button primary" href="index.html">Open Landing</a>
     </footer>
   </div>
 </body>

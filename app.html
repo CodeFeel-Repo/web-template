@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>손맛코딩 | 사용자 정보 페이지</title>
+  <title>손맛코딩 | Tactical Profile</title>
   <style>
     :root {
-      --bg: #eef2ea;
-      --surface: rgba(252, 255, 249, 0.82);
-      --ink: #1d231b;
-      --muted: #5c675a;
-      --accent: #3f7d58;
-      --accent-soft: rgba(63, 125, 88, 0.12);
-      --line: rgba(29, 35, 27, 0.1);
-      --shadow: 0 24px 72px rgba(53, 76, 56, 0.14);
+      --bg: #090b10;
+      --panel: rgba(16, 20, 28, 0.9);
+      --panel-soft: rgba(255, 255, 255, 0.04);
+      --ink: #edf6ef;
+      --muted: #98a6a0;
+      --accent: #ff7a00;
+      --signal: #9dff72;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 24px 72px rgba(0, 0, 0, 0.42);
       --space-section: 1.2rem;
       --space-card: 1.5rem;
     }
@@ -23,11 +24,15 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-family: "Trebuchet MS", "Segoe UI", "Malgun Gothic", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(63, 125, 88, 0.15), transparent 30%),
-        linear-gradient(180deg, #f8fcf6 0%, var(--bg) 100%);
+        linear-gradient(rgba(109, 255, 154, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(109, 255, 154, 0.06) 1px, transparent 1px),
+        radial-gradient(circle at top left, rgba(157, 255, 114, 0.12), transparent 26%),
+        radial-gradient(circle at right 18%, rgba(255, 122, 0, 0.14), transparent 18%),
+        linear-gradient(180deg, #0d1118 0%, #090b10 100%);
+      background-size: 28px 28px, 28px 28px, auto, auto, auto;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -42,10 +47,24 @@
     .hero,
     .card,
     .footer-box {
-      background: var(--surface);
+      background: var(--panel);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav::before,
+    .hero::before,
+    .card::before,
+    .footer-box::before,
+    .stat::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(157, 255, 114, 0.05), transparent 42%, rgba(255, 122, 0, 0.08));
+      pointer-events: none;
     }
 
     .nav,
@@ -55,7 +74,7 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 1.2rem;
-      border-radius: 1.4rem;
+      border-radius: 1rem;
     }
 
     .brand,
@@ -65,46 +84,69 @@
       align-items: center;
       gap: 0.85rem;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
-    .brand { font-weight: 700; }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
 
     .mark {
       width: 2.5rem;
       height: 2.5rem;
       display: grid;
       place-items: center;
-      border-radius: 0.85rem;
-      background: #243328;
-      color: #f5fff6;
+      clip-path: polygon(14% 0, 100% 0, 100% 84%, 86% 100%, 0 100%, 0 16%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(145deg, rgba(255, 122, 0, 0.28), rgba(157, 255, 114, 0.12));
+      color: var(--ink);
+      font-weight: 800;
     }
 
     .hero {
       margin-top: var(--space-section);
       padding: var(--space-card);
-      border-radius: 2rem;
+      border-radius: 1.2rem;
+    }
+
+    .hero > *,
+    .card > *,
+    .footer-box > * {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
       display: inline-flex;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 0.82rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.3rem;
+      background: rgba(157, 255, 114, 0.08);
+      border: 1px solid rgba(157, 255, 114, 0.24);
+      color: var(--signal);
+      font-size: 0.8rem;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     h1 {
       margin: 1rem 0 0.9rem;
-      font-size: clamp(2.1rem, 6vw, 4.4rem);
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
       line-height: 0.96;
-      letter-spacing: -0.05em;
     }
 
     h2 {
       margin: 0 0 0.8rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     p,
@@ -129,7 +171,7 @@
 
     .card {
       padding: 1.3rem;
-      border-radius: 1.6rem;
+      border-radius: 1rem;
     }
 
     .profile {
@@ -139,15 +181,16 @@
     }
 
     .avatar {
-      width: 5.5rem;
-      height: 5.5rem;
+      width: 5.6rem;
+      height: 5.6rem;
       display: grid;
       place-items: center;
-      border-radius: 1.5rem;
-      background: linear-gradient(145deg, #3f7d58, #6aaa7f);
-      color: #f8fff8;
+      clip-path: polygon(16% 0, 100% 0, 100% 84%, 84% 100%, 0 100%, 0 16%);
+      background: linear-gradient(145deg, rgba(255, 122, 0, 0.9), rgba(157, 255, 114, 0.42));
+      color: #0e120d;
       font-size: 2rem;
-      font-weight: 700;
+      font-weight: 800;
+      box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.12);
     }
 
     .stats {
@@ -159,16 +202,20 @@
 
     .stat {
       padding: 0.9rem;
-      border-radius: 1.1rem;
-      background: rgba(255, 255, 255, 0.66);
+      border-radius: 0.9rem;
+      background: var(--panel-soft);
       border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
     }
 
     .stat strong {
       display: block;
       margin-bottom: 0.25rem;
       font-size: 1.2rem;
-      color: var(--ink);
+      color: var(--signal);
+      position: relative;
+      z-index: 1;
     }
 
     ul {
@@ -181,22 +228,23 @@
       align-items: center;
       justify-content: center;
       min-height: 3rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 999px;
+      padding: 0.82rem 1.2rem;
+      border-radius: 0.35rem;
       font-weight: 700;
       border: 1px solid var(--line);
-      background: white;
+      background: rgba(157, 255, 114, 0.08);
+      color: var(--signal);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
     .button.primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, #ff7a00, #ff5100);
       border-color: transparent;
-      color: #f7fff7;
+      color: #140d08;
     }
 
-    .footer-box {
-      margin-top: var(--space-section);
-    }
+    .footer-box { margin-top: var(--space-section); }
 
     @media (max-width: 860px) {
       .grid,
@@ -229,22 +277,22 @@
     <header class="nav">
       <a class="brand" href="index.html">
         <span class="mark">S</span>
-        <span>손맛코딩</span>
+        <span>Sonmat Coding</span>
       </a>
       <nav class="links">
-        <a href="index.html">랜딩</a>
-        <a href="list.html">목록</a>
-        <a href="conts.html">콘텐츠</a>
-        <a href="app.html">사용자 정보</a>
-        <a href="game.html">게임</a>
+        <a href="index.html">Landing</a>
+        <a href="list.html">List</a>
+        <a href="conts.html">Content</a>
+        <a href="app.html">Profile</a>
+        <a href="game.html">Game</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <span class="eyebrow">User Profile Content</span>
-        <h1>사용자 정보를<br>콘텐츠처럼 정리한<br>프로필 페이지</h1>
-        <p>단순한 데이터 나열이 아니라, 상태와 활동을 읽기 쉬운 카드 구조로 정리해 보여주는 화면입니다.</p>
+        <span class="eyebrow">Pilot Profile / Data</span>
+        <h1>Organize user<br>data like a<br>mission board</h1>
+        <p>단순한 정보 나열이 아니라, 상태와 활동을 읽기 쉬운 HUD 카드 구조로 정리해 보여주는 화면입니다.</p>
       </section>
 
       <section class="grid">
@@ -255,13 +303,13 @@
             <p>AI를 활용해 빠르게 시안을 만들고, 구조를 정리한 뒤 점진적으로 확장하는 방식을 선호합니다.</p>
           </div>
           <div class="meta">
-            <span>상태: Active</span>
-            <span>관심: UI, 자동화, 게임</span>
+            <span>Status: Active</span>
+            <span>Focus: UI, 자동화, 게임</span>
           </div>
         </article>
 
         <article class="card">
-          <h2>활동 요약</h2>
+          <h2>Activity Summary</h2>
           <div class="stats">
             <div class="stat">
               <strong>24</strong>
@@ -276,7 +324,7 @@
               <span>완료 흐름 유지율</span>
             </div>
           </div>
-          <h2 style="margin-top: 1.2rem;">주요 메모</h2>
+          <h2 style="margin-top: 1.2rem;">Primary Notes</h2>
           <ul>
             <li>랜딩에서 상세와 앱형 페이지로 분기되는 구조 선호</li>
             <li>단일 파일 프로토타입 이후 점진적 분리 진행</li>
@@ -287,8 +335,8 @@
     </main>
 
     <footer class="footer-box">
-      <a class="button" href="list.html">목록으로 이동</a>
-      <a class="button primary" href="game.html">게임 페이지 보기</a>
+      <a class="button" href="list.html">Open List</a>
+      <a class="button primary" href="game.html">Open Game</a>
     </footer>
   </div>
 </body>

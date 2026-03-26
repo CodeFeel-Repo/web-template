@@ -3,74 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>손맛코딩 | AI로 만드는 첫 화면</title>
+  <title>손맛코딩 | Tactical Landing</title>
   <style>
     :root {
-      --bg: #f6efe4;
-      --paper: rgba(255, 250, 242, 0.78);
-      --ink: #1d1a16;
-      --muted: #5e554a;
-      --accent: #d95d39;
-      --accent-strong: #a93414;
-      --line: rgba(29, 26, 22, 0.1);
-      --shadow: 0 24px 80px rgba(75, 50, 30, 0.16);
-      --radius-pill: 999px;
-      --radius-card: 1.6rem;
+      --bg: #090b10;
+      --bg-grid: rgba(109, 255, 154, 0.08);
+      --panel: rgba(16, 20, 28, 0.88);
+      --ink: #edf6ef;
+      --muted: #94a39c;
+      --accent: #ff7a00;
+      --signal: #9dff72;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --radius-card: 1.2rem;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-family: "Trebuchet MS", "Segoe UI", "Malgun Gothic", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(217, 93, 57, 0.2), transparent 28%),
-        radial-gradient(circle at right 20%, rgba(94, 85, 74, 0.14), transparent 24%),
-        linear-gradient(180deg, #fbf6ee 0%, var(--bg) 52%, #efe3d2 100%);
+        linear-gradient(var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px),
+        radial-gradient(circle at top, rgba(255, 122, 0, 0.22), transparent 26%),
+        radial-gradient(circle at 15% 18%, rgba(157, 255, 114, 0.12), transparent 18%),
+        linear-gradient(180deg, #0d1118 0%, #090b10 52%, #05070b 100%);
+      background-size: 28px 28px, 28px 28px, auto, auto, auto;
       overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-    }
-
-    a:focus-visible {
-      outline: 3px solid rgba(217, 93, 57, 0.45);
-      outline-offset: 3px;
-    }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid rgba(157, 255, 114, 0.55); outline-offset: 3px; }
 
     body::before,
     body::after {
       content: "";
       position: fixed;
-      inset: auto;
-      width: 28rem;
-      height: 28rem;
-      border-radius: 50%;
-      filter: blur(20px);
-      opacity: 0.45;
       pointer-events: none;
       z-index: 0;
+      opacity: 0.7;
     }
 
     body::before {
-      top: -8rem;
-      right: -7rem;
-      background: rgba(217, 93, 57, 0.24);
+      inset: 0;
+      background:
+        linear-gradient(120deg, transparent 0 35%, rgba(255, 122, 0, 0.07) 35% 36%, transparent 36% 100%),
+        linear-gradient(180deg, transparent 0 78%, rgba(157, 255, 114, 0.08) 78% 79%, transparent 79% 100%);
     }
 
     body::after {
-      bottom: -10rem;
-      left: -8rem;
-      background: rgba(75, 115, 91, 0.18);
+      top: 2rem;
+      right: -8rem;
+      width: 24rem;
+      height: 24rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 122, 0, 0.18), transparent 65%);
+      filter: blur(12px);
     }
 
     .page {
@@ -86,16 +78,42 @@
       top: 0.75rem;
       left: 0.75rem;
       padding: 0.8rem 1rem;
-      border-radius: var(--radius-pill);
-      background: #fff8ef;
-      color: var(--ink);
+      border: 1px solid var(--signal);
+      border-radius: 0.45rem;
+      background: rgba(7, 12, 16, 0.96);
+      color: var(--signal);
       transform: translateY(-140%);
       transition: transform 180ms ease;
       z-index: 3;
     }
 
-    .skip-link:focus {
-      transform: translateY(0);
+    .skip-link:focus { transform: translateY(0); }
+
+    .nav,
+    .metric,
+    .panel,
+    .feature,
+    .quote,
+    .timeline-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav::before,
+    .metric::before,
+    .panel::before,
+    .feature::before,
+    .quote::before,
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(157, 255, 114, 0.06), transparent 40%, rgba(255, 122, 0, 0.08));
+      pointer-events: none;
     }
 
     .nav {
@@ -103,7 +121,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      padding: 1rem 0;
+      padding: 1rem 1.2rem;
+      border-radius: 1rem;
     }
 
     .brand {
@@ -112,18 +131,28 @@
       gap: 0.8rem;
       text-decoration: none;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark,
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(145deg, rgba(255, 122, 0, 0.28), rgba(157, 255, 114, 0.12));
+      color: var(--ink);
+      clip-path: polygon(14% 0, 100% 0, 100% 84%, 86% 100%, 0 100%, 0 16%);
+      position: relative;
+      z-index: 1;
     }
 
     .brand-mark {
-      width: 2.8rem;
-      height: 2.8rem;
-      display: grid;
-      place-items: center;
-      border-radius: 0.9rem;
-      background: linear-gradient(145deg, #1d1a16 0%, #3a3129 100%);
-      color: #fff7ee;
-      box-shadow: var(--shadow);
+      width: 2.9rem;
+      height: 2.9rem;
+      font-weight: 800;
     }
 
     .nav-links {
@@ -131,6 +160,8 @@
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .nav-links a,
@@ -141,6 +172,9 @@
       transition: color 180ms ease;
     }
 
+    .nav-links a:hover,
+    .ghost-link:hover { color: var(--signal); }
+
     .button,
     .button-outline {
       display: inline-flex;
@@ -148,71 +182,70 @@
       justify-content: center;
       gap: 0.5rem;
       min-height: 3rem;
-      padding: 0.8rem 1.3rem;
-      border-radius: var(--radius-pill);
+      padding: 0.85rem 1.35rem;
+      border-radius: 0.35rem;
       border: 1px solid transparent;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      position: relative;
+      z-index: 1;
     }
 
     .button {
-      background: var(--accent);
-      color: #fffaf4;
-      box-shadow: 0 18px 32px rgba(169, 52, 20, 0.22);
+      background: linear-gradient(135deg, #ff7a00, #ff5100);
+      color: #120b06;
+      box-shadow: 0 14px 30px rgba(255, 122, 0, 0.18);
     }
 
     .button-outline {
-      color: var(--ink);
-      border-color: var(--line);
-      background: rgba(255, 255, 255, 0.42);
-      backdrop-filter: blur(14px);
+      color: var(--signal);
+      border-color: rgba(157, 255, 114, 0.35);
+      background: rgba(157, 255, 114, 0.08);
     }
 
     .button:hover,
     .button-outline:hover,
     .feature:hover,
-    .metric:hover {
-      transform: translateY(-2px);
-    }
-
-    .nav-links a:hover,
-    .ghost-link:hover {
-      color: var(--ink);
-    }
+    .metric:hover { transform: translateY(-2px); }
 
     .hero {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 2rem;
       align-items: center;
-      padding: 3.5rem 0 2rem;
+      padding: 3rem 0 2rem;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.55rem;
-      padding: 0.45rem 0.8rem;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.58);
-      border: 1px solid rgba(29, 26, 22, 0.08);
-      color: var(--muted);
-      font-size: 0.88rem;
-      backdrop-filter: blur(14px);
+      padding: 0.5rem 0.85rem;
+      border: 1px solid rgba(157, 255, 114, 0.28);
+      border-radius: 0.35rem;
+      background: rgba(157, 255, 114, 0.08);
+      color: var(--signal);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
+
+    h1, h2 { text-transform: uppercase; letter-spacing: 0.04em; }
 
     h1 {
       margin: 1rem 0 1rem;
-      font-size: clamp(2.7rem, 7vw, 5.6rem);
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
       line-height: 0.94;
-      letter-spacing: -0.05em;
+      text-shadow: 0 0 20px rgba(255, 122, 0, 0.12);
     }
 
     .hero-copy p {
       max-width: 38rem;
       margin: 0 0 1.5rem;
-      font-size: 1.08rem;
+      font-size: 1.04rem;
       line-height: 1.8;
       color: var(--muted);
     }
@@ -231,80 +264,39 @@
     }
 
     .metric,
-    .panel,
     .feature,
-    .quote {
-      background: var(--paper);
-      border: 1px solid rgba(29, 26, 22, 0.08);
-      backdrop-filter: blur(20px);
-      box-shadow: var(--shadow);
-    }
+    .quote,
+    .timeline-item,
+    .panel { border-radius: var(--radius-card); }
 
-    .metric {
-      padding: 1rem 1.05rem;
-      border-radius: 1.4rem;
-      transition: transform 180ms ease;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.5rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .metric span {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .panel {
-      position: relative;
-      padding: 1.3rem;
-      border-radius: 2rem;
-      overflow: hidden;
-    }
-
-    .panel::after {
-      content: "";
-      position: absolute;
-      inset: auto -10% -20% auto;
-      width: 14rem;
-      height: 14rem;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(217, 93, 57, 0.22), transparent 62%);
-    }
-
-    .panel-grid {
-      display: grid;
-      gap: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .panel-card {
-      padding: 1.15rem;
-      border-radius: 1.5rem;
-      background: rgba(255, 255, 255, 0.62);
-      border: 1px solid rgba(29, 26, 22, 0.08);
-    }
-
+    .metric { padding: 1rem 1.05rem; transition: transform 180ms ease; }
+    .metric strong { display: block; font-size: 1.5rem; margin-bottom: 0.3rem; color: var(--signal); position: relative; z-index: 1; }
+    .metric span,
     .panel-card small,
     .section-copy p,
     .feature p,
     .quote p,
-    footer p {
-      color: var(--muted);
+    footer p { color: var(--muted); position: relative; z-index: 1; }
+
+    .panel { padding: 1.3rem; }
+    .panel-grid { display: grid; gap: 1rem; position: relative; z-index: 1; }
+
+    .panel-card {
+      padding: 1.15rem;
+      border-radius: 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
     }
 
     .panel-card strong {
       display: block;
-      margin: 0.4rem 0;
-      font-size: 1.2rem;
+      margin: 0.45rem 0;
+      font-size: 1.15rem;
+      color: var(--ink);
+      text-transform: uppercase;
     }
 
-    section {
-      padding: 2rem 0;
-    }
+    section { padding: 2rem 0; }
 
     .section-heading {
       display: flex;
@@ -314,15 +306,8 @@
       margin-bottom: 1.3rem;
     }
 
-    .section-heading h2 {
-      margin: 0;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      letter-spacing: -0.04em;
-    }
-
-    .section-copy {
-      max-width: 36rem;
-    }
+    .section-heading h2 { margin: 0; font-size: clamp(1.9rem, 4vw, 3rem); }
+    .section-copy { max-width: 36rem; }
 
     .feature-grid {
       display: grid;
@@ -337,36 +322,10 @@
       margin-top: 1.2rem;
     }
 
-    .feature {
-      padding: 1.35rem;
-      border-radius: var(--radius-card);
-      transition: transform 180ms ease;
-    }
-
-    .feature strong {
-      display: block;
-      margin: 0.9rem 0 0.65rem;
-      font-size: 1.12rem;
-    }
-
-    .feature a {
-      display: inline-flex;
-      margin-top: 0.85rem;
-      font-weight: 700;
-      color: var(--accent-strong);
-      text-decoration: none;
-    }
-
-    .feature-icon {
-      width: 2.6rem;
-      height: 2.6rem;
-      display: grid;
-      place-items: center;
-      border-radius: 0.9rem;
-      background: rgba(217, 93, 57, 0.12);
-      color: var(--accent-strong);
-      font-weight: 700;
-    }
+    .feature { padding: 1.35rem; transition: transform 180ms ease; }
+    .feature strong { display: block; margin: 0.9rem 0 0.65rem; font-size: 1.08rem; text-transform: uppercase; position: relative; z-index: 1; }
+    .feature a { display: inline-flex; margin-top: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.06em; position: relative; z-index: 1; }
+    .feature-icon { width: 2.7rem; height: 2.7rem; font-weight: 800; }
 
     .showcase {
       display: grid;
@@ -374,46 +333,14 @@
       gap: 1rem;
     }
 
-    .quote {
-      padding: 1.6rem;
-      border-radius: 1.8rem;
-    }
+    .quote { padding: 1.6rem; }
+    .quote strong { display: inline-block; margin-top: 1rem; color: var(--signal); text-transform: uppercase; letter-spacing: 0.08em; position: relative; z-index: 1; }
+    .stack { display: grid; gap: 1rem; }
+    .timeline { display: grid; gap: 0.85rem; }
+    .timeline-item { padding: 1rem 1.1rem; background: rgba(255, 255, 255, 0.035); }
+    .timeline-item span { display: inline-block; margin-bottom: 0.35rem; font-size: 0.82rem; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; position: relative; z-index: 1; }
 
-    .quote strong {
-      display: inline-block;
-      margin-top: 1rem;
-    }
-
-    .stack {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .timeline {
-      display: grid;
-      gap: 0.85rem;
-    }
-
-    .timeline-item {
-      padding: 1rem 1.1rem;
-      border-radius: 1.3rem;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(29, 26, 22, 0.08);
-    }
-
-    .timeline-item span {
-      display: inline-block;
-      margin-bottom: 0.35rem;
-      font-size: 0.85rem;
-      color: var(--accent-strong);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .cta {
-      padding-top: 1rem;
-    }
+    .cta { padding-top: 1rem; }
 
     .cta-box {
       display: grid;
@@ -421,29 +348,29 @@
       gap: 1rem;
       align-items: center;
       padding: 1.6rem;
-      border-radius: 2rem;
-      background: linear-gradient(135deg, rgba(29, 26, 22, 0.94), rgba(70, 48, 33, 0.94));
-      color: #fff8ef;
-      box-shadow: 0 28px 60px rgba(29, 26, 22, 0.22);
+      border-radius: 1.2rem;
+      border: 1px solid rgba(255, 122, 0, 0.25);
+      background: linear-gradient(135deg, rgba(31, 12, 4, 0.96), rgba(16, 20, 28, 0.98));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
 
-    .cta-box p {
-      margin: 0.45rem 0 0;
-      color: rgba(255, 248, 239, 0.74);
+    .cta-box::before {
+      content: "ENTRY PLUG";
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      color: rgba(157, 255, 114, 0.42);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
     }
 
-    footer {
-      padding: 2rem 0 0;
-    }
+    .cta-box p { margin: 0.45rem 0 0; color: rgba(237, 246, 239, 0.72); position: relative; z-index: 1; }
+    .cta-box h2 { position: relative; z-index: 1; }
 
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      align-items: center;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(29, 26, 22, 0.08);
-    }
+    footer { padding: 2rem 0 0; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding-top: 1rem; border-top: 1px solid var(--line); }
 
     .fade-up {
       opacity: 0;
@@ -455,68 +382,25 @@
     .delay-2 { animation-delay: 240ms; }
     .delay-3 { animation-delay: 360ms; }
 
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-
-      .fade-up {
-        opacity: 1;
-        transform: none;
-      }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .fade-up { opacity: 1; transform: none; }
     }
 
     @media (max-width: 920px) {
-      .hero,
-      .showcase,
-      .cta-box {
-        grid-template-columns: 1fr;
-      }
-
-      .feature-grid,
-      .quick-links,
-      .metrics {
-        grid-template-columns: 1fr;
-      }
-
-      .section-heading {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        align-items: start;
-      }
+      .hero, .showcase, .cta-box { grid-template-columns: 1fr; }
+      .feature-grid, .quick-links, .metrics { grid-template-columns: 1fr; }
+      .section-heading { align-items: start; flex-direction: column; }
+      .footer-inner { flex-direction: column; align-items: start; }
     }
 
     @media (max-width: 640px) {
-      .page {
-        width: min(100% - 1.2rem, 1120px);
-      }
-
-      .nav {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      h1 {
-        font-size: clamp(2.4rem, 16vw, 4rem);
-      }
+      .page { width: min(100% - 1.2rem, 1120px); }
+      .nav { align-items: start; flex-direction: column; }
+      h1 { font-size: clamp(2.4rem, 16vw, 4rem); }
     }
   </style>
 </head>
@@ -526,40 +410,40 @@
     <header class="nav fade-up">
       <a class="brand" href="#top">
         <span class="brand-mark">S</span>
-        <span>손맛코딩</span>
+        <span>Sonmat Coding</span>
       </a>
       <nav class="nav-links">
-        <a href="#features">특징</a>
-        <a href="#workflow">흐름</a>
-        <a class="button-outline" href="#start">지금 시작</a>
+        <a href="#features">Features</a>
+        <a href="#workflow">Flow</a>
+        <a class="button-outline" href="#start">Activate</a>
       </nav>
     </header>
 
     <main id="main-content">
       <section class="hero">
         <div class="hero-copy">
-          <span class="eyebrow fade-up delay-1">AI와 함께 만드는 첫 인상</span>
-          <h1 class="fade-up delay-2">간단한 지시로<br>바로 열리는<br>랜딩 페이지</h1>
+          <span class="eyebrow fade-up delay-1">Operation Mode / Landing</span>
+          <h1 class="fade-up delay-2">Launch the<br>first screen<br>with precision</h1>
           <p class="fade-up delay-3">
-            복잡한 설정 없이도 시작 화면은 분명해야 합니다. 손맛코딩은 아이디어를 빠르게 화면으로 옮기고,
-            방문자가 한눈에 이해할 수 있는 구조를 담아 첫 페이지를 만듭니다.
+            손맛코딩은 빠르게 화면을 세우고, 메시지와 이동 흐름을 한 번에 정리하는 출발점입니다.
+            복잡한 설정 없이도 첫 진입 화면이 무엇을 해야 하는지 분명하게 전달합니다.
           </p>
           <div class="actions fade-up delay-3">
-            <a class="button" href="#start">프로젝트 열기</a>
-            <a class="button-outline" href="#features">구성 살펴보기</a>
+            <a class="button" href="#start">Open Sequence</a>
+            <a class="button-outline" href="#features">Inspect Layout</a>
           </div>
           <div class="metrics fade-up delay-3">
             <article class="metric">
-              <strong>1 파일</strong>
-              <span>바로 실행 가능한 단일 페이지</span>
+              <strong>01</strong>
+              <span>즉시 열 수 있는 단일 진입 구조</span>
             </article>
             <article class="metric">
-              <strong>반응형</strong>
+              <strong>SYNC</strong>
               <span>모바일과 데스크톱 모두 대응</span>
             </article>
             <article class="metric">
-              <strong>즉시 사용</strong>
-              <span>추가 의존성 없이 열기만 하면 완료</span>
+              <strong>READY</strong>
+              <span>추가 의존성 없이 바로 시연 가능</span>
             </article>
           </div>
         </div>
@@ -567,19 +451,19 @@
         <aside class="panel fade-up delay-2" aria-label="페이지 요약">
           <div class="panel-grid">
             <div class="panel-card">
-              <small>Landing Snapshot</small>
-              <strong>명확한 헤드라인</strong>
-              <span>첫 화면에서 핵심 메시지와 행동 유도를 동시에 전달합니다.</span>
+              <small>Signal / Headline</small>
+              <strong>첫 화면 메시지 고정</strong>
+              <span>핵심 설명과 행동 유도를 첫 시야 안에 동시에 배치합니다.</span>
             </div>
             <div class="panel-card">
-              <small>Visual Direction</small>
-              <strong>따뜻한 톤과 유리 질감</strong>
-              <span>단순하지만 평범하지 않은 분위기로 프로젝트의 인상을 정리합니다.</span>
+              <small>Frame / Theme</small>
+              <strong>전술 HUD 스타일</strong>
+              <span>어두운 패널, 경고색 라인, 신호색 포인트로 긴장감 있는 UI를 만듭니다.</span>
             </div>
             <div class="panel-card">
-              <small>Ready to Expand</small>
-              <strong>다음 섹션 확장 가능</strong>
-              <span>소개, 기능, 포트폴리오, 문의 섹션으로 자연스럽게 확장할 수 있습니다.</span>
+              <small>Route / Expand</small>
+              <strong>다음 화면으로 연결</strong>
+              <span>목록, 콘텐츠, 프로필, 게임 화면으로 자연스럽게 확장됩니다.</span>
             </div>
           </div>
         </aside>
@@ -588,52 +472,52 @@
       <section id="features">
         <div class="section-heading">
           <div class="section-copy">
-            <h2>한 장으로도 충분한 구조</h2>
-            <p>처음 필요한 것은 기능을 다 담은 복잡한 사이트가 아니라, 핵심을 선명하게 보여 주는 출발점입니다.</p>
+            <h2>Command Structure</h2>
+            <p>처음 필요한 것은 많은 기능이 아니라, 한 번에 이해되는 구조와 다음 행동으로 이어지는 흐름입니다.</p>
           </div>
-          <a class="ghost-link" href="#workflow">만드는 흐름 보기</a>
+          <a class="ghost-link" href="#workflow">운영 흐름 보기</a>
         </div>
         <div class="feature-grid">
           <article class="feature">
             <div class="feature-icon">01</div>
-            <strong>핵심 메시지 우선</strong>
-            <p>방문자가 스크롤을 내리기 전에 무엇을 하는 페이지인지 바로 알 수 있게 설계했습니다.</p>
+            <strong>Message First</strong>
+            <p>방문자가 스크롤하기 전 무엇을 보는지 바로 파악할 수 있도록 메시지를 전면에 둡니다.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">02</div>
-            <strong>부담 없는 확장성</strong>
-            <p>단일 파일로 시작하지만 섹션을 추가하거나 스타일을 분리하기 쉬운 구조입니다.</p>
+            <strong>Fast Expansion</strong>
+            <p>단일 파일에서 시작하지만 이후 섹션 추가와 화면 분리에 무리가 없는 구조입니다.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">03</div>
-            <strong>즉시 시연 가능</strong>
-            <p>브라우저에서 `index.html`만 열어도 바로 확인할 수 있어 초기 데모에 적합합니다.</p>
+            <strong>Demo Ready</strong>
+            <p>`index.html`만 열어도 즉시 확인 가능해 초기 시안 검토에 적합합니다.</p>
           </article>
         </div>
         <div class="quick-links">
           <article class="feature">
             <div class="feature-icon">L</div>
-            <strong>목록 페이지 이동</strong>
-            <p>구성된 카드 목록을 통해 여러 콘텐츠를 탐색할 수 있는 별도 페이지입니다.</p>
-            <a href="list.html">list.html 열기</a>
+            <strong>List Route</strong>
+            <p>카드 목록을 기준으로 여러 콘텐츠를 훑고 다음 페이지로 이동하는 허브입니다.</p>
+            <a href="list.html">Open list.html</a>
           </article>
           <article class="feature">
             <div class="feature-icon">C</div>
-            <strong>콘텐츠 페이지 이동</strong>
-            <p>단일 항목을 상세하게 소개하는 읽기 중심 페이지로 바로 연결됩니다.</p>
-            <a href="conts.html">conts.html 열기</a>
+            <strong>Content Route</strong>
+            <p>단일 주제를 집중해서 읽는 상세 콘텐츠 화면으로 연결됩니다.</p>
+            <a href="conts.html">Open conts.html</a>
           </article>
           <article class="feature">
             <div class="feature-icon">A</div>
-            <strong>사용자 정보 페이지</strong>
-            <p>사용자 정보를 요약해 보여주는 콘텐츠 성격의 별도 화면으로 이동합니다.</p>
-            <a href="app.html">app.html 열기</a>
+            <strong>Profile Route</strong>
+            <p>사용자 정보를 카드 기반으로 정리한 앱형 콘텐츠 화면으로 이동합니다.</p>
+            <a href="app.html">Open app.html</a>
           </article>
           <article class="feature">
             <div class="feature-icon">G</div>
-            <strong>게임 플레이 페이지</strong>
-            <p>가볍게 진입해 플레이 흐름을 체험할 수 있는 인터랙션 중심 화면입니다.</p>
-            <a href="game.html">game.html 열기</a>
+            <strong>Play Route</strong>
+            <p>가벼운 인터랙션과 점수 흐름을 바로 체험할 수 있는 게임 화면입니다.</p>
+            <a href="game.html">Open game.html</a>
           </article>
         </div>
       </section>
@@ -641,29 +525,29 @@
       <section id="workflow" class="showcase">
         <article class="quote">
           <p>
-            "좋은 첫 화면은 많은 설명을 하지 않습니다.
-            대신 방문자가 다음 행동을 자연스럽게 선택하게 만듭니다."
+            "좋은 첫 화면은 설명을 늘리지 않습니다.
+            대신 다음 행동을 주저 없이 선택하게 만듭니다."
           </p>
-          <strong>손맛코딩 랜딩 원칙</strong>
+          <strong>Sonmat Coding Principle</strong>
         </article>
 
         <div class="stack">
           <div class="section-copy">
-            <h2>이 페이지가 하는 일</h2>
-            <p>처음 도착한 사용자가 프로젝트의 방향을 빠르게 파악하고, 다음 클릭으로 이어지도록 기본 흐름을 제공합니다.</p>
+            <h2>Operation Flow</h2>
+            <p>사용자는 첫 화면에서 방향을 파악하고, 다음 링크를 통해 필요한 상세 화면으로 바로 진입합니다.</p>
           </div>
           <div class="timeline">
             <div class="timeline-item">
-              <span>Step 1</span>
-              <div>브랜드와 메시지를 상단에 압축해 첫인상을 정리합니다.</div>
+              <span>Step 01</span>
+              <div>브랜드와 핵심 문구를 상단에 압축해 첫 인상을 고정합니다.</div>
             </div>
             <div class="timeline-item">
-              <span>Step 2</span>
-              <div>행동 버튼과 요약 카드로 방문자의 선택지를 명확하게 남깁니다.</div>
+              <span>Step 02</span>
+              <div>행동 버튼과 요약 패널로 이동 경로를 분명하게 남깁니다.</div>
             </div>
             <div class="timeline-item">
-              <span>Step 3</span>
-              <div>기능 소개 섹션으로 자연스럽게 이어지며 이후 확장 작업의 기반이 됩니다.</div>
+              <span>Step 03</span>
+              <div>목록, 콘텐츠, 프로필, 게임 페이지로 자연스럽게 연결합니다.</div>
             </div>
           </div>
         </div>
@@ -672,17 +556,17 @@
       <section id="start" class="cta">
         <div class="cta-box">
           <div>
-            <h2>첫 페이지는 이미 준비됐습니다.</h2>
-            <p>이제 이 화면을 기준으로 프로젝트 소개, 서비스 설명, 포트폴리오 섹션을 계속 붙여 나가면 됩니다.</p>
+            <h2>Initial Screen Ready</h2>
+            <p>이제 이 화면을 기준으로 프로젝트 소개, 서비스 구조, 포트폴리오 요소를 계속 확장할 수 있습니다.</p>
           </div>
-          <a class="button" href="#top">맨 위로</a>
+          <a class="button" href="#top">Return Top</a>
         </div>
       </section>
     </main>
 
     <footer>
       <div class="footer-inner">
-        <p>© 2026 Sonmat Coding. Built as a lightweight landing page starter.</p>
+        <p>© 2026 Sonmat Coding. Tactical landing prototype with connected routes.</p>
         <a class="ghost-link" href="#top">상단으로 이동</a>
       </div>
     </footer>

@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>손맛코딩 | 목록 페이지</title>
+  <title>손맛코딩 | Tactical List</title>
   <style>
     :root {
-      --bg: #f4ede1;
-      --surface: rgba(255, 250, 242, 0.82);
-      --ink: #1f1b17;
-      --muted: #655b50;
-      --accent: #d95d39;
-      --accent-soft: rgba(217, 93, 57, 0.12);
-      --line: rgba(31, 27, 23, 0.1);
-      --shadow: 0 24px 70px rgba(84, 56, 36, 0.14);
+      --bg: #090b10;
+      --panel: rgba(16, 20, 28, 0.9);
+      --ink: #edf6ef;
+      --muted: #96a49f;
+      --accent: #ff7a00;
+      --signal: #9dff72;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
     }
 
     * { box-sizing: border-box; }
@@ -21,11 +21,14 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      font-family: "Trebuchet MS", "Segoe UI", "Malgun Gothic", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top right, rgba(217, 93, 57, 0.16), transparent 26%),
-        linear-gradient(180deg, #fcf8f1 0%, var(--bg) 100%);
+        linear-gradient(rgba(109, 255, 154, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(109, 255, 154, 0.07) 1px, transparent 1px),
+        radial-gradient(circle at top right, rgba(255, 122, 0, 0.18), transparent 24%),
+        linear-gradient(180deg, #0d1118 0%, #090b10 100%);
+      background-size: 26px 26px, 26px 26px, auto, auto;
     }
 
     a { color: inherit; }
@@ -40,10 +43,23 @@
     .hero,
     .list-card,
     .footer-box {
-      background: var(--surface);
+      background: var(--panel);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav::before,
+    .hero::before,
+    .list-card::before,
+    .footer-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(157, 255, 114, 0.05), transparent 42%, rgba(255, 122, 0, 0.08));
+      pointer-events: none;
     }
 
     .nav {
@@ -52,7 +68,7 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 1.2rem;
-      border-radius: 1.4rem;
+      border-radius: 1rem;
     }
 
     .brand,
@@ -61,38 +77,50 @@
       gap: 0.9rem;
       align-items: center;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .brand {
       text-decoration: none;
       font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     .mark {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.6rem;
+      height: 2.6rem;
       display: grid;
       place-items: center;
-      border-radius: 0.85rem;
-      background: #2c241d;
-      color: #fff7ee;
+      clip-path: polygon(14% 0, 100% 0, 100% 84%, 86% 100%, 0 100%, 0 16%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(145deg, rgba(255, 122, 0, 0.28), rgba(157, 255, 114, 0.12));
+      color: var(--ink);
+      font-weight: 800;
     }
 
     .links a,
-    .list-card a {
-      text-decoration: none;
-    }
+    .list-card a { text-decoration: none; }
+    .links a:hover,
+    .list-card a:hover { color: var(--signal); }
 
     .hero {
       margin-top: 1rem;
-      padding: 1.6rem;
-      border-radius: 2rem;
+      padding: 1.7rem;
+      border-radius: 1.2rem;
     }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    h1,
+    h2,
+    .tag,
+    .button { text-transform: uppercase; letter-spacing: 0.06em; }
 
     h1 {
       margin: 0 0 0.75rem;
-      font-size: clamp(2.2rem, 6vw, 4.4rem);
-      letter-spacing: -0.05em;
+      font-size: clamp(2.4rem, 6vw, 4.6rem);
       line-height: 0.95;
     }
 
@@ -100,7 +128,7 @@
     .list-card p,
     footer p {
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     .hero-actions {
@@ -115,18 +143,19 @@
       align-items: center;
       justify-content: center;
       min-height: 3rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 999px;
+      padding: 0.82rem 1.2rem;
+      border-radius: 0.35rem;
       text-decoration: none;
       font-weight: 700;
       border: 1px solid var(--line);
-      background: white;
+      background: rgba(157, 255, 114, 0.08);
+      color: var(--signal);
     }
 
     .button.primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, #ff7a00, #ff5100);
       border-color: transparent;
-      color: #fff9f2;
+      color: #140d08;
     }
 
     .section-head {
@@ -145,53 +174,54 @@
 
     .list-card {
       padding: 1.25rem;
-      border-radius: 1.5rem;
+      border-radius: 1rem;
     }
+
+    .list-card > * { position: relative; z-index: 1; }
 
     .tag {
       display: inline-flex;
       padding: 0.35rem 0.65rem;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: #a93414;
-      font-size: 0.82rem;
+      border-radius: 0.3rem;
+      background: rgba(157, 255, 114, 0.12);
+      color: var(--signal);
+      font-size: 0.78rem;
       font-weight: 700;
     }
 
     .list-card strong {
       display: block;
       margin: 0.9rem 0 0.6rem;
-      font-size: 1.15rem;
+      font-size: 1.08rem;
     }
 
     .list-card a {
       display: inline-flex;
       margin-top: 0.8rem;
       font-weight: 700;
-      color: #a93414;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     .footer-box {
       margin-top: 2rem;
       padding: 1.2rem 1.3rem;
-      border-radius: 1.4rem;
+      border-radius: 1rem;
       display: flex;
       justify-content: space-between;
       gap: 1rem;
       align-items: center;
     }
 
+    .footer-box > * { position: relative; z-index: 1; }
+
     @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      .page {
-        width: min(100% - 1.2rem, 1120px);
-      }
-
+      .page { width: min(100% - 1.2rem, 1120px); }
       .nav,
       .footer-box,
       .section-head {
@@ -206,72 +236,72 @@
     <header class="nav">
       <a class="brand" href="index.html">
         <span class="mark">S</span>
-        <span>손맛코딩</span>
+        <span>Sonmat Coding</span>
       </a>
       <nav class="links">
-        <a href="index.html">랜딩</a>
-        <a href="list.html">목록</a>
-        <a href="conts.html">콘텐츠</a>
-        <a href="app.html">사용자 정보</a>
-        <a href="game.html">게임</a>
+        <a href="index.html">Landing</a>
+        <a href="list.html">List</a>
+        <a href="conts.html">Content</a>
+        <a href="app.html">Profile</a>
+        <a href="game.html">Game</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <h1>둘러보기 좋은<br>목록 페이지</h1>
-        <p>여러 콘텐츠를 카드 형태로 정리해 한눈에 훑고, 상세 페이지로 자연스럽게 이동할 수 있도록 만든 화면입니다.</p>
+        <h1>Catalog the<br>next routes</h1>
+        <p>여러 콘텐츠를 카드형 전술 패널로 정리해 한눈에 확인하고, 필요한 상세 화면으로 빠르게 이동할 수 있도록 구성했습니다.</p>
         <div class="hero-actions">
-          <a class="button primary" href="conts.html">대표 콘텐츠 보기</a>
-          <a class="button" href="index.html">랜딩으로 돌아가기</a>
+          <a class="button primary" href="conts.html">Open Content</a>
+          <a class="button" href="index.html">Back to Landing</a>
         </div>
       </section>
 
       <section>
         <div class="section-head">
           <div>
-            <h2>추천 항목</h2>
-            <p>초기 데모에 맞게 세 가지 예시 콘텐츠를 배치했습니다.</p>
+            <h2>Active Units</h2>
+            <p>현재 데모 구조에서 바로 확인할 수 있는 주요 화면들입니다.</p>
           </div>
         </div>
         <div class="grid">
           <article class="list-card">
             <span class="tag">Starter</span>
             <strong>첫 화면 설계 원칙</strong>
-            <p>명확한 헤드라인과 행동 유도를 중심으로 랜딩 페이지를 구성하는 방식입니다.</p>
-            <a href="conts.html">상세 보기</a>
+            <p>헤드라인, 액션 버튼, 요약 패널을 통해 랜딩 구조를 빠르게 고정하는 방식입니다.</p>
+            <a href="conts.html">Inspect</a>
           </article>
           <article class="list-card">
             <span class="tag">Workflow</span>
             <strong>단일 파일로 빠르게 시작하기</strong>
-            <p>구조와 스타일을 한 파일에 정리해 초기 시안을 빠르게 확인하는 흐름을 소개합니다.</p>
-            <a href="conts.html">상세 보기</a>
+            <p>하나의 HTML 파일에서 구조와 스타일을 조정하며 초기 시안을 빠르게 검증합니다.</p>
+            <a href="conts.html">Inspect</a>
           </article>
           <article class="list-card">
             <span class="tag">Expand</span>
             <strong>목록에서 콘텐츠로 연결하기</strong>
-            <p>탐색 페이지와 상세 페이지를 묶어 사용자가 자연스럽게 이동하도록 구성했습니다.</p>
-            <a href="conts.html">상세 보기</a>
+            <p>허브 페이지에서 상세 페이지로 이동하는 흐름을 정리해 탐색성을 높였습니다.</p>
+            <a href="conts.html">Inspect</a>
           </article>
           <article class="list-card">
             <span class="tag">Profile</span>
             <strong>사용자 정보 콘텐츠</strong>
-            <p>이름, 상태, 활동 정보 같은 사용자 중심 데이터를 보여주는 페이지 예시입니다.</p>
-            <a href="app.html">상세 보기</a>
+            <p>상태와 활동 정보를 카드 기반으로 보여주는 프로필형 콘텐츠 화면입니다.</p>
+            <a href="app.html">Inspect</a>
           </article>
           <article class="list-card">
             <span class="tag">Play</span>
             <strong>게임 플레이 시작</strong>
-            <p>간단한 규칙과 점수판을 갖춘 플레이 화면으로 이동하는 진입 카드입니다.</p>
-            <a href="game.html">상세 보기</a>
+            <p>즉시 반응하는 타일 게임 화면으로 진입해 인터랙션 흐름을 확인할 수 있습니다.</p>
+            <a href="game.html">Inspect</a>
           </article>
         </div>
       </section>
     </main>
 
     <footer class="footer-box">
-      <p>list.html 에서 콘텐츠, 사용자 정보, 게임 페이지로 각각 이동할 수 있도록 연결했습니다.</p>
-      <a class="button" href="app.html">사용자 정보 페이지로</a>
+      <p>이 페이지는 콘텐츠, 사용자 정보, 게임 화면으로 이동하는 중간 허브 역할을 수행합니다.</p>
+      <a class="button" href="app.html">Open Profile</a>
     </footer>
   </div>
 </body>
